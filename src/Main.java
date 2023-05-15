@@ -25,15 +25,15 @@ public class Main {
         System.out.println(currentTime);
 
         CSV stops = new CSV("gtfs/stops.txt", new String[]{"stop_id", "stop_name"});
-        CSV stopTimes = new CSV("gtfs/stop_times.txt", new String[]{"trip_id", "arrival_time"});
+        CSV stopTimes = new CSV("gtfs/stop_times.txt", new String[]{"trip_id", "stop_id", "arrival_time"});
         CSV trips = new CSV("gtfs/trips.txt", new String[]{"trip_id", "route_id"});
 
 //        System.out.println(stops.getTable());
 //        System.out.println(trips.getTable());
 
-        ArrayList<HashMap<String, String>> stopsTable = stopTimes.getTable();
+        ArrayList<HashMap<String, String>> stopsTable = stops.getTable();
         ArrayList<HashMap<String, String>> timeTable = stopTimes.getTable();
-        ArrayList<HashMap<String, String>> tripsTable = stopTimes.getTable();
+        ArrayList<HashMap<String, String>> tripsTable = trips.getTable();
 
         timeTable.sort((o1, o2) -> {
             LocalTime time1 = LocalTime.parse(o1.get("arrival_time"));
@@ -43,13 +43,35 @@ public class Main {
         });
 
         for (int i = timeTable.size() - 1; i >= 0; --i) {
-            LocalTime time = LocalTime.parse(timeTable.get(i).get("arrival_time"));
-            if (time.isBefore(currentTime) || time.isAfter(currentTime.plusHours(2))) {
+
+            if (!timeTable.get(i).get("stop_id").equals(stopID)) {
                 timeTable.remove(stopTimes.getTable().get(i));
+                continue;
             }
+
+            LocalTime time = LocalTime.parse(timeTable.get(i).get("arrival_time"));
+            if (time.isAfter(currentTime) && time.isBefore(currentTime.plusHours(2)))
+                continue;
+
+            timeTable.remove(stopTimes.getTable().get(i));
         }
 
-        System.out.println(stopTimes.getTable());
+        for (int i = 0; i < timeTable.size(); ++i) {
+            String tripID = timeTable.get(i).get("trip_id");
+            String routeID = "";
+
+            for (HashMap<String, String> row : tripsTable) {
+                if (row.get("trip_id").equals(tripID)) {
+                    routeID = row.get("route_id");
+                    break;
+                }
+            }
+
+            timeTable.get(i).put("route_id", routeID);
+//            timeTable.get(i).remove("trip_id");
+        }
+
+        System.out.println(timeTable);
 
 
         System.out.println();

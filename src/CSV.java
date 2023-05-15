@@ -5,7 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class CSV {
-    private ArrayList<HashMap<String, String>> table;
+    private final ArrayList<HashMap<String, String>> table;
 
     private static boolean isInArray(String[] array, String item) {
         for (String element : array) {
