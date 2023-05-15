@@ -9,6 +9,14 @@ import java.time.format.FormatStyle;
 import java.util.*;
 
 public class Main {
+
+    private static boolean isInArray(ArrayList<String> array, String item) {
+        for (String element : array) {
+            if (element.equals(item)) return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) throws FileNotFoundException {
 
         if (args.length != 3) {
@@ -73,11 +81,30 @@ public class Main {
 
         System.out.println(timeTable);
 
+        // TODO print out stop name
+
+        ArrayList<String> routes = new ArrayList<>();
+        for (int i = 0; i < timeTable.size() || routes.size() == numOfBuses; ++i) {
+            String routeID = timeTable.get(i).get("route_id");
+            if (isInArray(routes, routeID)) continue;
+
+            routes.add(routeID);
+            System.out.print(routeID + ": ");
+
+            for (HashMap<String, String> row : timeTable) {
+
+                // TODO consider relative time
+
+                if (row.get("route_id").equals(routeID))
+                    System.out.print(row.get("arrival_time") + ", ");
+            }
+
+            System.out.println();
+
+        }
 
         System.out.println();
 
         System.out.println("Hellooo!");
-
-
     }
 }
