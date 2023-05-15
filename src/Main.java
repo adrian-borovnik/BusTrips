@@ -1,11 +1,6 @@
-import javafx.print.Collation;
-import sun.util.resources.LocaleData;
-
 import java.io.FileNotFoundException;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.*;
 
 public class Main {
@@ -29,15 +24,12 @@ public class Main {
         String mode = args[2];
 
         LocalTime currentTime = LocalTime.now();
-        String currentTimeString = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+//        String currentTimeString = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
         System.out.println(currentTime);
 
         CSV stops = new CSV("gtfs/stops.txt", new String[]{"stop_id", "stop_name"});
         CSV stopTimes = new CSV("gtfs/stop_times.txt", new String[]{"trip_id", "stop_id", "arrival_time"});
         CSV trips = new CSV("gtfs/trips.txt", new String[]{"trip_id", "route_id"});
-
-//        System.out.println(stops.getTable());
-//        System.out.println(trips.getTable());
 
         ArrayList<HashMap<String, String>> stopsTable = stops.getTable();
         ArrayList<HashMap<String, String>> timeTable = stopTimes.getTable();
@@ -64,8 +56,8 @@ public class Main {
             timeTable.remove(stopTimes.getTable().get(i));
         }
 
-        for (int i = 0; i < timeTable.size(); ++i) {
-            String tripID = timeTable.get(i).get("trip_id");
+        for (HashMap<String, String> tableRow : timeTable) {
+            String tripID = tableRow.get("trip_id");
             String routeID = "";
 
             for (HashMap<String, String> row : tripsTable) {
@@ -75,7 +67,7 @@ public class Main {
                 }
             }
 
-            timeTable.get(i).put("route_id", routeID);
+            tableRow.put("route_id", routeID);
 //            timeTable.get(i).remove("trip_id");
         }
 
