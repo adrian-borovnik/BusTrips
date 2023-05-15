@@ -25,7 +25,8 @@ public class CSV {
             String[] row = scanner.nextLine().replace("\uFEFF", "").split(",", -1);
             HashMap<String, String> map = new HashMap<>();
             for (int i = 0; i < columns.length; ++i) {
-                if(!isInArray(keys, columns[i])) continue;
+                if(keys.length != 0)
+                    if(!isInArray(keys, columns[i])) continue;
                 map.put(columns[i], row[i]);
             }
             table.add(map);
