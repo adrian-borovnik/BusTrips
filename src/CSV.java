@@ -1,37 +1,38 @@
+import javafx.scene.control.TableCell;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 public class CSV {
-    final private String fileName;
+    private ArrayList<HashMap<String, String>> table;
 
-    public CSV(String fileName) {
-        this.fileName = fileName;
+    private static boolean isInArray(String[] array, String item) {
+        for (String element : array) {
+            if (element.equals(item)) return true;
+        }
+        return false;
     }
 
-    public ArrayList<String> getColumn(String key) throws FileNotFoundException {
+    public CSV(String fileName, String[] keys) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(fileName), "UTF-8");
 //        scanner.useDelimiter("[^a-zA-Z0-9]+");
 
         String[] columns = scanner.nextLine().replace("\uFEFF", "").split(",", -1);
 
-        int index = -1;
-        for(int i = 0; i < columns.length; ++i){
-            if(Objects.equals(key, columns[i])){
-                index = i;
-                break;
+        table = new ArrayList<>();
+        while (scanner.hasNextLine()) {
+            String[] row = scanner.nextLine().replace("\uFEFF", "").split(",", -1);
+            HashMap<String, String> map = new HashMap<>();
+            for (int i = 0; i < columns.length; ++i) {
+                if(!isInArray(keys, columns[i])) continue;
+                map.put(columns[i], row[i]);
             }
+            table.add(map);
         }
+    }
 
-        if(index < 0) return null;
-
-        ArrayList<String> column = new ArrayList<String>();
-
-        while(scanner.hasNextLine()){
-            String[] row = scanner.nextLine().split(",", -1);
-            column.add(row[index]);
-        }
-
-        return column;
+    public ArrayList<HashMap<String, String>> getTable() {
+        return table;
     }
 }
