@@ -1,6 +1,6 @@
 # Bus Trips
 
-A console aplication that reads data from GTFS files and returns arrivig times of buses a given bus stop for 2 hours ahead.
+A console aplication that reads data from GTFS files and returns arrivig times of buses for a given bus stop for 2 hours ahead.
 
 Application is used by passing 3 arguments:
 * stop id - ID of a bus stop from wich we want to recive arriving times of buses
