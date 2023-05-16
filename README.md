@@ -9,7 +9,9 @@ Application is used by passing 3 arguments:
 - mode - A mode in wich times are represented, it could be **absolute** or **relative**
 
 Example: cmd > BusTrips.exe 2 5 relative
+
 ---
+
 ## What I used to built it
 Aplication is built using:
 - Java programing language (java8)
