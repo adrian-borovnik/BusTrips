@@ -1,6 +1,5 @@
 import java.io.FileNotFoundException;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
@@ -31,7 +30,7 @@ public class Main {
         String mode = args[2];
 
         if(!(mode.equals("absolute") || mode.equals("relative"))){
-            System.out.println("Invalid mode specified. Choose between \"absolute\" and \"relative\"");
+            System.out.println("Invalid mode specified. Choose between \"absolute\" and \"relative\".");
             return;
         }
 
@@ -66,7 +65,6 @@ public class Main {
         });
 
         LocalTime currentTime = LocalTime.now();
-//        String currentTimeString = currentTime.format(DateTimeFormatter.ofPattern("HH:mm:ss"));
 
         for (int i = timeTable.size() - 1; i >= 0; --i) {
 
@@ -128,9 +126,6 @@ public class Main {
 
             System.out.println();
             if (routes.size() == numOfBuses) break;
-
         }
-
-        System.out.println();
     }
 }

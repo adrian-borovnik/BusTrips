@@ -15,7 +15,6 @@ public class CSV {
 
     public CSV(String fileName, String[] keys) throws FileNotFoundException {
         Scanner scanner = new Scanner(new File(fileName), "UTF-8");
-//        scanner.useDelimiter("[^a-zA-Z0-9]+");
 
         String[] columns = scanner.nextLine().replace("\uFEFF", "").split(",", -1);
 
